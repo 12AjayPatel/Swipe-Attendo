@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Swipe Attendance Manager</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎓</text></svg>">
+</head>
+<body>
+    <div id="app">
+        <!-- Login Page -->
+        <div id="loginPage" class="page active">
+            <div class="login-container">
+                <div class="login-card">
+                    <div class="logo-container">
+                        <div class="logo">🎓</div>
+                        <h1>Swipe Attendance</h1>
+                        <p>Modern attendance management made fun!</p>
+                    </div>
+                    
+                    <!-- Login Form -->
+                    <div id="loginSection">
+                        <form id="loginForm">
+                            <div class="form-group">
+                                <label for="email">Email Address</label>
+                                <input type="email" id="email" placeholder="Enter your email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" placeholder="Enter your password" required>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary">Login</button>
+                        </form>
+                        
+                        <div class="auth-switch">
+                            <p>Don't have an account? <button id="showRegisterBtn" class="link-btn">Register here</button></p>
+                        </div>
+                        
+                        <div class="or-divider">
+                            <span>OR</span>
+                        </div>
+                        
+                        <button id="quickLoginBtn" class="btn-quick-login">Quick Start (No Email Required)</button>
+                    </div>
+                    
+                    <!-- Registration Form -->
+                    <div id="registerSection" style="display: none;">
+                        <form id="registerForm">
+                            <div class="form-group">
+                                <label for="regName">Full Name</label>
+                                <input type="text" id="regName" placeholder="Enter your full name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="regEmail">Email Address</label>
+                                <input type="email" id="regEmail" placeholder="Enter your email" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="regPassword">Password</label>
+                                <input type="password" id="regPassword" placeholder="Create a password (min 6 chars)" minlength="6" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="regSubjects">Select Your Subjects</label>
+                                <div class="subjects-grid" id="subjectsGrid">
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" value="Physics"> Physics
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" value="Chemistry"> Chemistry
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" value="Mathematics"> Mathematics
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" value="Biology"> Biology
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" value="English"> English
+                                    </label>
+                                    <label class="subject-checkbox">
+                                        <input type="checkbox" value="History"> History
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary">Create Account</button>
+                        </form>
+                        
+                        <div class="auth-switch">
+                            <p>Already have an account? <button id="showLoginBtn" class="link-btn">Login here</button></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Login Form -->
+                    <div id="quickLoginSection" style="display: none;">
+                        <form id="quickLoginForm">
+                            <div class="form-group">
+                                <label for="teacherName">Teacher Name</label>
+                                <input type="text" id="teacherName" placeholder="Enter your name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject">Select Subject</label>
+                                <select id="subject" required>
+                                    <option value="">Choose a subject</option>
+                                    <option value="Physics">📚 Physics</option>
+                                    <option value="Chemistry">🧪 Chemistry</option>
+                                    <option value="Mathematics">📐 Mathematics</option>
+                                    <option value="Biology">🌱 Biology</option>
+                                    <option value="English">📖 English</option>
+                                    <option value="History">🏛️ History</option>
+                                    <option value="Geography">🌍 Geography</option>
+                                    <option value="Computer Science">💻 Computer Science</option>
+                                    <option value="Art">🎨 Art</option>
+                                    <option value="Music">🎵 Music</option>
+                                    <option value="Physical Education">⚽ Physical Education</option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary">Start Teaching Session</button>
+                        </form>
+                        
+                        <div class="auth-switch">
+                            <button id="backToLoginBtn" class="link-btn">← Back to Login</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subject Selection Page (for registered users) -->
+        <div id="subjectSelectionPage" class="page">
+            <div class="login-container">
+                <div class="login-card">
+                    <div class="logo-container">
+                        <h1 id="welcomeUserText">Welcome Back!</h1>
+                        <p>Select a subject to start taking attendance</p>
+                    </div>
+                    
+                    <form id="subjectSelectionForm">
+                        <div class="form-group">
+                            <label for="selectedSubject">Your Subjects</label>
+                            <select id="selectedSubject" required>
+                                <option value="">Choose a subject</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" class="btn-primary">Continue</button>
+                    </form>
+                    
+                    <div class="auth-switch">
+                        <button id="logoutFromSubjectBtn" class="link-btn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Student Management Page -->
+        <div id="managementPage" class="page">
+            <div class="management-container">
+                <div class="header-card">
+                    <div class="header-info">
+                        <h1 id="welcomeText">Welcome!</h1>
+                        <p id="subjectText">Managing attendance</p>
+                    </div>
+                    <div class="student-count">
+                        <span>👥 <span id="studentCount">0</span> Students</span>
+                    </div>
+                </div>
+                
+                <div class="management-actions">
+                    <h2>Student List</h2>
+                    <div class="management-buttons">
+                        <button id="addStudentBtn" class="btn-secondary">
+                            ➕ Add Student
+                        </button>
+                        <button id="viewHistoryBtn" class="btn-secondary">
+                            📊 View History
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="studentsList" class="students-grid"></div>
+                
+                <div id="startAttendanceContainer" class="start-attendance-container" style="display: none;">
+                    <button id="startAttendanceBtn" class="btn-start">
+                        ▶️ Start Taking Attendance
+                    </button>
+                </div>
+                
+                <div id="noStudentsMessage" class="no-students">
+                    <div class="no-students-icon">👤</div>
+                    <h3>No Students Added</h3>
+                    <p>Add some students to start taking attendance!</p>
+                </div>
+                
+                <div class="logout-section">
+                    <button id="logoutBtn" class="btn-logout">🚪 Logout</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance History Page -->
+        <div id="historyPage" class="page">
+            <div class="history-container">
+                <div class="history-header">
+                    <button id="backToManagementFromHistory" class="btn-back">← Back</button>
+                    <h1>Attendance History (30 Days)</h1>
+                </div>
+                
+                <div class="history-filters">
+                    <div class="filter-group">
+                        <label for="dateFilter">Filter by Date:</label>
+                        <input type="date" id="dateFilter">
+                    </div>
+                    <div class="filter-group">
+                        <button id="clearDateFilter" class="btn-clear">Clear Filter</button>
+                    </div>
+                </div>
+                
+                <div id="historyStats" class="history-stats">
+                    <div class="stat-card">
+                        <div class="stat-number" id="totalSessions">0</div>
+                        <div class="stat-label">Total Sessions</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="avgAttendanceRate">0%</div>
+                        <div class="stat-label">Average Attendance</div>
+                    </div>
+                </div>
+                
+                <div id="historyList" class="history-list"></div>
+                
+                <div id="historyPagination" class="pagination"></div>
+                
+                <div id="noHistoryMessage" class="no-history">
+                    <h3>No Attendance Records</h3>
+                    <p>Start taking attendance to see history here!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance Page -->
+        <div id="attendancePage" class="page">
+            <div class="attendance-container">
+                <div class="attendance-header">
+                    <button id="backToManagement" class="btn-back">← Back</button>
+                    <div class="progress-info">
+                        <div>Progress</div>
+                        <div id="progressText">1 of 1</div>
+                    </div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div id="progressFill" class="progress-fill"></div>
+                </div>
+                
+                <div class="card-container">
+                    <div id="studentCard" class="student-card">
+                        <div class="student-photo">
+                            <img id="studentPhoto" src="" alt="Student Photo">
+                        </div>
+                        <div class="student-info">
+                            <h2 id="studentName"></h2>
+                            <div class="student-details">
+                                <div class="detail-row">
+                                    <span>Roll Number:</span>
+                                    <span id="studentRoll"></span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Class:</span>
+                                    <span id="studentClass"></span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Age:</span>
+                                    <span id="studentAge"></span>
+                                </div>
+                                <div class="detail-row">
+                                    <span>Gender:</span>
+                                    <span id="studentGender"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swipe-overlay absent">❌ ABSENT</div>
+                        <div class="swipe-overlay present">✅ PRESENT</div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button id="absentBtn" class="btn-absent">❌</button>
+                    <button id="presentBtn" class="btn-present">✅</button>
+                </div>
+                
+                <div class="swipe-instructions">
+                    <p>Swipe right or tap ✅ for Present</p>
+                    <p>Swipe left or tap ❌ for Absent</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Summary Page -->
+        <div id="summaryPage" class="page">
+            <div class="summary-container">
+                <div class="summary-header">
+                    <h1>Attendance Summary</h1>
+                    <p id="summaryDate"></p>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">👥</div>
+                        <div class="stat-number" id="totalStudents">0</div>
+                        <div class="stat-label">Total Students</div>
+                    </div>
+                    <div class="stat-card present-stat">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-number" id="presentCount">0</div>
+                        <div class="stat-label">Present</div>
+                    </div>
+                    <div class="stat-card absent-stat">
+                        <div class="stat-icon">❌</div>
+                        <div class="stat-number" id="absentCount">0</div>
+                        <div class="stat-label">Absent</div>
+                    </div>
+                </div>
+
+                <!-- 30-Day Records Section -->
+                <div class="records-section">
+                    <h2>30-Day Attendance Records</h2>
+                    <div class="records-info">
+                        <p>📅 Records are automatically deleted after 30 days</p>
+                        <p id="recordsCount">Total records: <span id="totalRecordsCount">0</span></p>
+                    </div>
+                    
+                    <div class="recent-records">
+                        <h3>Recent Sessions</h3>
+                        <div id="recentRecordsList" class="recent-list"></div>
+                        <button id="viewAllHistoryBtn" class="btn-view-all">View All History</button>
+                    </div>
+                </div>
+                
+                <div class="attendance-lists">
+                    <div class="attendance-list">
+                        <h3 class="list-title present-title">✅ Present Students (<span id="presentListCount">0</span>)</h3>
+                        <div id="presentList" class="student-list"></div>
+                    </div>
+                    <div class="attendance-list">
+                        <h3 class="list-title absent-title">❌ Absent Students (<span id="absentListCount">0</span>)</h3>
+                        <div id="absentList" class="student-list"></div>
+                    </div>
+                </div>
+                
+                <div class="summary-actions">
+                    <button id="backToManagementFromSummary" class="btn-secondary">← Back to Management</button>
+                    <button id="retakeAttendance" class="btn-retake">🔄 Retake Attendance</button>
+                </div>
+                
+                <div class="attendance-rate">
+                    <div class="rate-label">Attendance Rate</div>
+                    <div id="attendanceRate" class="rate-percentage">0%</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Student Modal -->
+        <div id="addStudentModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>Add New Student</h2>
+                    <button id="closeModal" class="close-btn">×</button>
+                </div>
+                <form id="addStudentForm">
+                    <div class="form-group">
+                        <input type="text" id="newStudentName" placeholder="Student Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="newStudentRoll" placeholder="Roll Number" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="text" id="newStudentClass" placeholder="Class" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="newStudentSection" placeholder="Section" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <input type="number" id="newStudentAge" placeholder="Age" min="5" max="25" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="newStudentGender" required>
+                                <option value="">Gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Student Photo</label>
+                        <div class="photo-upload-section">
+                            <div class="photo-preview" id="photoPreview">
+                                <img id="previewImage" src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=400&fit=crop&crop=face" alt="Student Photo Preview">
+                                <div class="photo-overlay">
+                                    <span>📷 Click to Upload Photo</span>
+                                </div>
+                            </div>
+                            <input type="file" id="photoUpload" accept="image/*" style="display: none;">
+                            <div class="photo-actions">
+                                <button type="button" id="uploadPhotoBtn" class="btn-upload">📷 Upload from Gallery</button>
+                                <button type="button" id="useDefaultPhotoBtn" class="btn-default">👤 Use Default Avatar</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Add Student</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
